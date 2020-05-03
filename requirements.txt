@@ -6,3 +6,5 @@ pandas
 xlrd
 jupyterlab
 pyshp
+mpld3
+Flask==1.1.1
