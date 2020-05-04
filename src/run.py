@@ -33,7 +33,7 @@ def get_covid_plot():
     dist_list_1 = set()
     dist_list_2 = set()
 
-    fp = "../gadm36_IND_shp/gadm36_IND_2.shp"
+    fp = "src/gadm36_IND_shp/gadm36_IND_2.shp"
     map_df = gpd.read_file(fp)
     map_df.head()
     print(map_df.NAME_2)
