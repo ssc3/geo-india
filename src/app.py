@@ -14,5 +14,3 @@ def get_covid_map():
     return get_covid_plot()
 
 
-if __name__ == '__main__':
-    app.run()

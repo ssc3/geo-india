@@ -30,11 +30,15 @@ DataPoint = NamedTuple(
 
 def get_covid_plot():
     # reading the state wise shapefile of India in a GeoDataFrame and preview it
+    dist_list_1 = set()
+    dist_list_2 = set()
 
     fp = "../gadm36_IND_shp/gadm36_IND_2.shp"
     map_df = gpd.read_file(fp)
     map_df.head()
     print(map_df.NAME_2)
+    print(map_df.NAME_2.to_dict().values())
+    dist_list_1.add(map_df.NAME_2.to_dict().values())
     # Plot the default map
 
 
@@ -51,12 +55,19 @@ def get_covid_plot():
         for k1, v1 in v.items():
             if isinstance(v1, dict):
                 for k2, v2 in v1.items():
+                    if k2 == "Mumbai Suburban":
+                        k2 = "Mumbai"
+
                     print("KEY =" + k2)
                     print(v2)
+                    dist_list_2.add(k2)
                     dp = DataPoint(k2, v2["active"], v2["confirmed"], v2["deceased"], v2["recovered"])
                     print(dp)
                     dp_list.append(dp)
 
+
+
+    print("Dist list 1 = " + str(dist_list_2))
 
 
 
@@ -72,7 +83,7 @@ def get_covid_plot():
 
 
     # create figure and axes for Matplotlib and set the title
-    fig, ax = plt.subplots(1, figsize=(10, 6))
+    fig, ax = plt.subplots(1, figsize=(30, 12))
 
     ax.axis('off')
     ax.set_title('District Wise Covid cases', fontdict={'fontsize': '25', 'fontweight' : '3'})

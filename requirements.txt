@@ -7,4 +7,5 @@ xlrd
 jupyterlab
 pyshp
 mpld3
+gunicorn
 Flask==1.1.1
