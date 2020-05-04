@@ -34,7 +34,7 @@ def compute(plt):
     dist_list_2 = set()
 
     fp = "src/gadm36_IND_shp/gadm36_IND_2.shp"
-    fp = "India__Districts_Boundary-shp/c6297139-e430-4d5a-b181-12f90ae87258202042-1-1to0ock.us3b.shp"
+    fp = "src/India__Districts_Boundary-shp/c6297139-e430-4d5a-b181-12f90ae87258202042-1-1to0ock.us3b.shp"
     map_df = gpd.read_file(fp)
     map_df.head()
     # print(map_df.distname)
