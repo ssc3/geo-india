@@ -8,4 +8,5 @@ jupyterlab
 pyshp
 mpld3
 gunicorn
+mapclassify
 Flask==1.1.1

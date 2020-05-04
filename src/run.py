@@ -28,17 +28,18 @@ DataPoint = NamedTuple(
 )
 
 
-def get_covid_plot():
+def compute(plt):
     # reading the state wise shapefile of India in a GeoDataFrame and preview it
     dist_list_1 = set()
     dist_list_2 = set()
 
     fp = "src/gadm36_IND_shp/gadm36_IND_2.shp"
+    fp = "India__Districts_Boundary-shp/c6297139-e430-4d5a-b181-12f90ae87258202042-1-1to0ock.us3b.shp"
     map_df = gpd.read_file(fp)
     map_df.head()
-    print(map_df.NAME_2)
-    print(map_df.NAME_2.to_dict().values())
-    dist_list_1.add(map_df.NAME_2.to_dict().values())
+    # print(map_df.distname)
+    # print(map_df.NAME_2.to_dict().values())
+    dist_list_1.add(map_df.distname.to_dict().values())
     # Plot the default map
 
 
@@ -55,30 +56,30 @@ def get_covid_plot():
         for k1, v1 in v.items():
             if isinstance(v1, dict):
                 for k2, v2 in v1.items():
-                    if k2 == "Mumbai Suburban":
-                        k2 = "Mumbai"
-
-                    print("KEY =" + k2)
-                    print(v2)
+                    # print("KEY =" + k2)
+                    # print(v2)
                     dist_list_2.add(k2)
                     dp = DataPoint(k2, v2["active"], v2["confirmed"], v2["deceased"], v2["recovered"])
-                    print(dp)
+                    # print(dp)
                     dp_list.append(dp)
 
 
 
-    print("Dist list 1 = " + str(dist_list_2))
+    # print("Dist list 1 = " + str(dist_list_1))
 
 
 
 
     # create DataFrame using data
     df = pd.DataFrame(dp_list, columns=['District', 'active', 'confirmed', 'deceased', 'recovered'])
-    print(df)
+    # print(df)
 
 
-    merged = map_df.set_index('NAME_2').join(df.set_index('District'))
-    print(merged.head())
+    merged = map_df.set_index('distname').join(df.set_index('District'))
+    print(merged.columns)
+    merged.fillna(0.1, inplace=True)
+    for item in merged.confirmed.items():
+        print(item)
 
 
 
@@ -87,9 +88,16 @@ def get_covid_plot():
 
     ax.axis('off')
     ax.set_title('District Wise Covid cases', fontdict={'fontsize': '25', 'fontweight' : '3'})
-    merged.plot(column='confirmed', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
+    merged.plot(column="confirmed", cmap='YlOrRd', scheme='user_defined', classification_kwds={'bins':[10, 100, 500, 1000, 10000]}, linewidth=0.5, ax=ax, edgecolor='0.8', legend=True)
 
     # plt.show()
+
+
+
+
+def get_covid_plot():
+    compute(plt)
+
     # Save it to a temporary buffer.
     buf = BytesIO()
     plt.savefig(buf, format="png")
